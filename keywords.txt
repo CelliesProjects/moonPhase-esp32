@@ -1,0 +1,4 @@
+MoonPhase	KEYWORD1
+moonData	KEYWORD1
+getInfo	KEYWORD2
+
