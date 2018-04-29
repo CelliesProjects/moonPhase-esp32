@@ -1,7 +1,11 @@
 #include "MoonPhase.h"
 
-MoonPhase::moonData MoonPhase::getInfo( const int year, const int month, const int day, const double hour)
+MoonPhase::moonData MoonPhase::getInfo( const int year, const int month, const int day, const double hour )
 {
+    /*
+      Calculates the phase of the moon at the given epoch.
+      returns the moon percentage that is lit as a real number (0-1)
+      */
   moonData returnValue;
   double j = _Julian(year, month, (double)day + hour / 24.0) - 2444238.5;
   double ls = _sun_position(j);
@@ -9,11 +13,11 @@ MoonPhase::moonData MoonPhase::getInfo( const int year, const int month, const i
   double t = lm - ls;
   if (t < 0) t += 360;
   returnValue.angle = t;
-  returnValue.percentLit = 100 * (1.0 - cos((lm - ls) * DEG_TO_RAD)) / 2;
+  returnValue.percentLit = (1.0 - cos((lm - ls) * DEG_TO_RAD)) / 2;
   return returnValue;
 }
 
-double MoonPhase::_Julian( int year, int month, double day)
+double MoonPhase::_Julian( int year, int month, double day )
 {
   int b, c, e;
   b = 0;

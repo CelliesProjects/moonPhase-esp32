@@ -73,6 +73,7 @@ void setup()
   while ( !WiFi.isConnected() && millis() - timeout > 0 )
   {
     Serial.print( "." );
+    delay( 500 );
   }
   Serial.println();
   Serial.println( "Connected." );
@@ -115,19 +116,7 @@ void loop()
   tft.setCursor( 20, 120 );
   tft.printf( "%i%c %s UTC", moon.angle, char(247), asctime( &timeinfo ) );
   tft.setCursor( 120, 105 );
-  tft.printf( "%.4f%%", moon.percentLit );
-  
-
-    
-  ESP_LOGI( TAG, "%i",  moon.angle );
-  ESP_LOGI( TAG, "%04d/%02d/%02d %02d:%02d:%02d UTC - Moon is %.1f%% illuminated  (%d)",
-            1900 + timeinfo.tm_year,
-            timeinfo.tm_mon + 1,
-            timeinfo.tm_mday,
-            timeinfo.tm_hour,
-            timeinfo.tm_min,
-            timeinfo.tm_sec,
-            moon.percentLit );
+  tft.printf( "%.4f%%", moon.percentLit * 100 );
 
   delay( 1000 );
 }

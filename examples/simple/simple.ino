@@ -2,8 +2,8 @@
 
 const int year = 2018;
 const int month = 4;
-const int day = 4;
-const float hour = 22.5; /* 22:30 */
+const int day = 12;
+const float hour = 2.55; /* 22:30 */
 
 MoonPhase MoonPhase; /* include a MoonPhase instance */
 
@@ -17,11 +17,10 @@ void setup() {
   moon = MoonPhase.getInfo( year, month, day, hour );
 
   Serial.print( "Moon phase angle: " );
-  Serial.print( moon.angle );
+  Serial.print( moon.angle );                       /* angle is a integer between 0-360  */
   Serial.println( " degrees." );
   Serial.print( "Moon surface lit: " );
-  Serial.print( moon.percentLit );
-  Serial.println( "%." );
+  Serial.printf( "%.0f%%", moon.percentLit * 100 ); /* percentLit is a real between 0-1  */
 }
 
 void loop() {
