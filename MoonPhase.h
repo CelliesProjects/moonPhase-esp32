@@ -3,7 +3,7 @@
   and percentage illuminated. (as seen from Earth)
   Created by Marcel Timmer, April 28, 2018.
   Code adapted from http://www.voidware.com/phase.c
-  A big thanks to Hugh at voidware from granting permission.
+  A big thanks to Hugh at voidware for granting permission.
   Released under MIT license.
 */
 #ifndef MoonPhase_h
@@ -17,15 +17,15 @@ class MoonPhase
 
     struct moonData
     {
-      int angle;
-      float percentLit;
+      int32_t angle;
+      double percentLit;
     };
 
-    moonData getInfo( const int year, const int month, const int day, const double hour );
+    moonData getInfo( const int32_t year, const int32_t month, const int32_t day, const double hour );
 
   private:
 
-    double _Julian( int year, int month, double day );
+    double _Julian( int32_t year, int32_t month, double day );
 
     double _sun_position( const double j );
 

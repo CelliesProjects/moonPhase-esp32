@@ -1,6 +1,7 @@
 #include "MoonPhase.h"
+#include <inttypes.h>
 
-MoonPhase::moonData MoonPhase::getInfo( const int year, const int month, const int day, const double hour )
+MoonPhase::moonData MoonPhase::getInfo( const int32_t year, const int32_t month, const int32_t day, const double hour )
 {
     /*
       Calculates the phase of the moon at the given epoch.
@@ -17,9 +18,9 @@ MoonPhase::moonData MoonPhase::getInfo( const int year, const int month, const i
   return returnValue;
 }
 
-double MoonPhase::_Julian( int year, int month, double day )
+double MoonPhase::_Julian( int32_t year, int32_t month, double day )
 {
-  int b, c, e;
+  int32_t b, c, e;
   b = 0;
   if (month < 3) {
     year--;
@@ -27,7 +28,7 @@ double MoonPhase::_Julian( int year, int month, double day )
   }
   if (year > 1582 || (year == 1582 && month > 10) ||
       (year == 1582 && month == 10 && day > 15)) {
-    int a;
+    int32_t a;
     a = year / 100;
     b = 2 - a + a / 4;
   }
@@ -39,7 +40,7 @@ double MoonPhase::_Julian( int year, int month, double day )
 double MoonPhase::_sun_position( const double j )
 {
   double n, x, e, l, dl, v;
-  int i;
+  int32_t i;
   n = 360 / 365.2422 * j;
   i = n / 360;
   n = n - i * 360.0;
@@ -61,7 +62,7 @@ double MoonPhase::_sun_position( const double j )
 double MoonPhase::_moon_position( double j, double ls )
 {
   double ms, l, mm, ev, sms, ae, ec;
-  int i;
+  int32_t i;
   ms = 0.985647332099 * j - 3.762863;
   if (ms < 0) ms += 360.0;
   l = 13.176396 * j + 64.975464;
