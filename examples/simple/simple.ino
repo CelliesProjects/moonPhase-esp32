@@ -3,7 +3,7 @@
 const int year = 2018;
 const int month = 4;
 const int day = 12;
-const float hour = 2.55; /* 22:30 */
+const double hour = 22.50; /* 22:30 */
 
 MoonPhase MoonPhase; /* include a MoonPhase instance */
 
