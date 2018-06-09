@@ -21,14 +21,14 @@ class MoonPhase
       double percentLit;
     };
 
-    moonData getInfo( const int32_t year, const int32_t month, const int32_t day, const double hour );
+    moonData getInfo( const int32_t &year, const int32_t &month, const int32_t &day, const double &hour );
 
   private:
 
-    double _Julian( int32_t year, int32_t month, double day );
+    double _Julian( int32_t year, int32_t month, const double &day );
 
-    double _sun_position( const double j );
+    double _sun_position( const double &j );
 
-    double _moon_position( double j, double ls );
+    double _moon_position( const double &j, const double &ls );
 };
 #endif

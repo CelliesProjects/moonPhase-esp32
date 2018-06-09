@@ -1,12 +1,12 @@
 #include "MoonPhase.h"
 #include <inttypes.h>
 
-MoonPhase::moonData MoonPhase::getInfo( const int32_t year, const int32_t month, const int32_t day, const double hour )
+MoonPhase::moonData MoonPhase::getInfo( const int32_t &year, const int32_t &month, const int32_t &day, const double &hour )
 {
-    /*
-      Calculates the phase of the moon at the given epoch.
-      returns the moon percentage that is lit as a real number (0-1)
-      */
+/*
+  Calculates the phase of the moon at the given epoch.
+  returns the moon percentage that is lit as a real number (0-1)
+*/
   moonData returnValue;
   double j = _Julian(year, month, (double)day + hour / 24.0) - 2444238.5;
   double ls = _sun_position(j);
@@ -18,7 +18,7 @@ MoonPhase::moonData MoonPhase::getInfo( const int32_t year, const int32_t month,
   return returnValue;
 }
 
-double MoonPhase::_Julian( int32_t year, int32_t month, double day )
+double MoonPhase::_Julian( int32_t year, int32_t month, const double &day )
 {
   int32_t b, c, e;
   b = 0;
@@ -37,7 +37,7 @@ double MoonPhase::_Julian( int32_t year, int32_t month, double day )
   return b + c + e + day + 1720994.5;
 }
 
-double MoonPhase::_sun_position( const double j )
+double MoonPhase::_sun_position( const double &j )
 {
   double n, x, e, l, dl, v;
   int32_t i;
@@ -59,7 +59,7 @@ double MoonPhase::_sun_position( const double j )
   return l;
 }
 
-double MoonPhase::_moon_position( double j, double ls )
+double MoonPhase::_moon_position( const double &j, const double &ls )
 {
   double ms, l, mm, ev, sms, ae, ec;
   int32_t i;
