@@ -1,4 +1,26 @@
-MoonPhase	KEYWORD1
-moonData	KEYWORD1
-getInfo	KEYWORD2
+﻿#######################################
+# syntax coloring map for moonPhase
+#######################################
 
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+moonPhase	KEYWORD1
+moonData_t	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+getInfo	KEYWORD2
+angle	KEYWORD2
+percentLit	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+######################################
+//moonPhase		KEYWORD2
+moon		KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################

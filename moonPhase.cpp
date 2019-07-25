@@ -1,13 +1,23 @@
-#include "MoonPhase.h"
 #include <inttypes.h>
 
-MoonPhase::moonData MoonPhase::getInfo( const int32_t &year, const int32_t &month, const int32_t &day, const double &hour )
+#include "moonPhase.h"
+
+template<typename T, typename T2>
+inline T map(T2 val, T2 in_min, T2 in_max, T out_min, T out_max) {
+		return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+double moonPhase::fhour( const struct tm &timeinfo ) {
+  return timeinfo.tm_hour + map( ( timeinfo.tm_min * 60 ) + timeinfo.tm_sec, 0, 3600, 0.0, 1.0 );
+}
+
+moonData_t moonPhase::_getInfo( const int32_t &year, const int32_t &month, const int32_t &day, const double &hour )
 {
 /*
   Calculates the phase of the moon at the given epoch.
   returns the moon percentage that is lit as a real number (0-1)
 */
-  moonData returnValue;
+  moonData_t returnValue;
   double j = _Julian(year, month, (double)day + hour / 24.0) - 2444238.5;
   double ls = _sun_position(j);
   double lm = _moon_position(j, ls);
@@ -18,7 +28,20 @@ MoonPhase::moonData MoonPhase::getInfo( const int32_t &year, const int32_t &mont
   return returnValue;
 }
 
-double MoonPhase::_Julian( int32_t year, int32_t month, const double &day )
+moonData_t moonPhase::getInfo( const time_t t ) {
+  struct tm timeinfo;
+  gmtime_r( &t, &timeinfo );
+  double hour = fhour( timeinfo );
+  return _getInfo( 1900 + timeinfo.tm_year, 1 + timeinfo.tm_mon, timeinfo.tm_mday, hour );
+}
+
+moonData_t moonPhase::getInfo() {
+    time_t now;
+    time( &now );
+    return getInfo( now );
+}
+
+double moonPhase::_Julian( int32_t year, int32_t month, const double &day )
 {
   int32_t b, c, e;
   b = 0;
@@ -37,7 +60,7 @@ double MoonPhase::_Julian( int32_t year, int32_t month, const double &day )
   return b + c + e + day + 1720994.5;
 }
 
-double MoonPhase::_sun_position( const double &j )
+double moonPhase::_sun_position( const double &j )
 {
   double n, x, e, l, dl, v;
   int32_t i;
@@ -59,7 +82,7 @@ double MoonPhase::_sun_position( const double &j )
   return l;
 }
 
-double MoonPhase::_moon_position( const double &j, const double &ls )
+double moonPhase::_moon_position( const double &j, const double &ls )
 {
   double ms, l, mm, ev, sms, ae, ec;
   int32_t i;
