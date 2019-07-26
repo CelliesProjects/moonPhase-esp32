@@ -7,7 +7,7 @@ inline T map(T2 val, T2 in_min, T2 in_max, T out_min, T out_max) {
 		return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-double moonPhase::fhour( const struct tm &timeinfo ) {
+inline double moonPhase::fhour( const struct tm &timeinfo ) {
   return timeinfo.tm_hour + map( ( timeinfo.tm_min * 60 ) + timeinfo.tm_sec, 0, 3600, 0.0, 1.0 );
 }
 
