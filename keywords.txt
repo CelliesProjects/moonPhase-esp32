@@ -11,7 +11,7 @@ moonData_t	KEYWORD1
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-getInfo	KEYWORD2
+getPhase	KEYWORD2
 angle	KEYWORD2
 percentLit	KEYWORD2
 

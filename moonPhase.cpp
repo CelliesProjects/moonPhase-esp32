@@ -7,11 +7,11 @@ inline T map(T2 val, T2 in_min, T2 in_max, T out_min, T out_max) {
 		return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-inline double moonPhase::fhour( const struct tm &timeinfo ) {
+inline double moonPhase::_fhour( const struct tm &timeinfo ) {
   return timeinfo.tm_hour + map( ( timeinfo.tm_min * 60 ) + timeinfo.tm_sec, 0, 3600, 0.0, 1.0 );
 }
 
-moonData_t moonPhase::_getInfo( const int32_t &year, const int32_t &month, const int32_t &day, const double &hour )
+moonData_t moonPhase::_getPhase( const int32_t &year, const int32_t &month, const int32_t &day, const double &hour )
 {
 /*
   Calculates the phase of the moon at the given epoch.
@@ -28,17 +28,17 @@ moonData_t moonPhase::_getInfo( const int32_t &year, const int32_t &month, const
   return returnValue;
 }
 
-moonData_t moonPhase::getInfo( const time_t t ) {
+moonData_t moonPhase::getPhase( const time_t t ) {
   struct tm timeinfo;
   gmtime_r( &t, &timeinfo );
-  double hour = fhour( timeinfo );
-  return _getInfo( 1900 + timeinfo.tm_year, 1 + timeinfo.tm_mon, timeinfo.tm_mday, hour );
+  double hour = _fhour( timeinfo );
+  return _getPhase( 1900 + timeinfo.tm_year, 1 + timeinfo.tm_mon, timeinfo.tm_mday, hour );
 }
 
-moonData_t moonPhase::getInfo() {
+moonData_t moonPhase::getPhase() {
     time_t now;
     time( &now );
-    return getInfo( now );
+    return getPhase( now );
 }
 
 double moonPhase::_Julian( int32_t year, int32_t month, const double &day )
