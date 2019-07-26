@@ -1,4 +1,4 @@
-#include<WiFi.h>
+#include <WiFi.h>
 #include <moonPhase.h>
 
 const char * wifissid = "networkname";
@@ -6,27 +6,29 @@ const char * wifipsk = "password";
 
 moonPhase moonPhase; // include a MoonPhase instance
 
+struct tm timeinfo = {0};
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  Serial.println();
+  Serial.println();
+  Serial.println( "moonPhase esp32-sntp example." );
   Serial.print( "Connecting to " );
   Serial.println( wifissid );
   WiFi.begin( wifissid, wifipsk );
   while ( !WiFi.isConnected() )
     delay(100);
+  Serial.println();
 
-  Serial.println( " Connected. Getting time..." );
-
-  configTzTime( "CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00", "0.pool.ntp.org" ); //Amsterdam, Netherlands
-
-  struct tm timeinfo = {0};
+  Serial.println( "Connected. Getting time..." );
+  configTzTime( "CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00", "0.pool.ntp.org" ); // Timezone: Amsterdam, Netherlands
 
   while ( !getLocalTime( &timeinfo, 0 ) )
     vTaskDelay( 10 / portTICK_PERIOD_MS );
 }
 
 void loop() {
-  struct tm timeinfo = {0};
   getLocalTime( &timeinfo );
   Serial.print( asctime( &timeinfo ) );
 
