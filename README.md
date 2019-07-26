@@ -1,4 +1,4 @@
-# MoonPhase
+# moonPhase
 
 An Arduino library to get the moon phase angle and percentage of the moon that is illuminated.
 
