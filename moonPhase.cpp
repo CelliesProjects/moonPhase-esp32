@@ -81,29 +81,22 @@ static moonData_t _getPhase( const int32_t &year, const int32_t &month, const in
   Calculates the phase of the moon at the given epoch.
   returns the moon percentage that is lit as a real number (0-1)
 */
-  moonData_t returnValue;
   double j = _Julian(year, month, (double)day + hour / 24.0) - 2444238.5;
   double ls = _sun_position(j);
   double lm = _moon_position(j, ls);
   double t = lm - ls;
   if (t < 0) t += 360;
+  moonData_t returnValue;
   returnValue.angle = t;
   returnValue.percentLit = (1.0 - cos((lm - ls) * DEG_TO_RAD)) / 2;
   return returnValue;
-}
-
-moonData_t moonPhase::getPhase()
-{
-    time_t now = time(NULL);
-    return getPhase( now );
 }
 
 moonData_t moonPhase::getPhase( const time_t t )
 {
   struct tm timeinfo;
   gmtime_r( &t, &timeinfo );
-  double hour = _fhour( timeinfo );
-  return _getPhase( 1900 + timeinfo.tm_year, 1 + timeinfo.tm_mon, timeinfo.tm_mday, hour );
+  return _getPhase( 1900 + timeinfo.tm_year, 1 + timeinfo.tm_mon, timeinfo.tm_mday, _fhour( timeinfo ) );
 }
 
 

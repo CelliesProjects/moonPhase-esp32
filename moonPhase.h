@@ -20,7 +20,7 @@ struct moonData_t
 class moonPhase
 {
 public:
-  moonData_t getPhase();
+  moonData_t getPhase(){ return getPhase( time(NULL) ); };
   moonData_t getPhase( const time_t t );
 };
 #endif
