@@ -3,9 +3,9 @@
 
   // pics: http://neoprogrammics.com/moon/
 */
-#include "MoonPhase.h"
-#include "WiFi.h"
-#include "Adafruit_ILI9341.h"
+#include <WiFi.h>
+#include <Adafruit_ILI9341.h>
+#include <moonPhase.h>
 
 #define SPI_TFT_DC_PIN            27  // Goes to TFT DC
 #define SPI_SCK_PIN               25  // Goes to TFT SCK/CLK
@@ -42,10 +42,11 @@
 #include "phases/phase_345.c"
 #include "phases/phase_360.c"
 
-const char* wifi_sid = "..........";
-const char* wifi_psk = "..........";
+const char* wifi_sid = "network_name";
+const char* wifi_psk = "password";
 
-MoonPhase MoonPhase;
+moonPhase moonPhase;
+struct tm timeinfo;
 
 Adafruit_ILI9341 tft = Adafruit_ILI9341( SPI_TFT_CS_PIN, SPI_TFT_DC_PIN, SPI_TFT_RST_PIN );
 
@@ -55,7 +56,7 @@ void setup()
 
   SPI.begin( SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN );
 
-  tft.begin( 10000000, SPI );
+  tft.begin( 10000000 );
 
   pinMode( TFT_BACKLIGHT_PIN, OUTPUT );
   digitalWrite( TFT_BACKLIGHT_PIN, HIGH );
@@ -66,64 +67,45 @@ void setup()
   tft.println( "MoonPhase" );
 
   Serial.printf( "Connecting to '%s' with psk '%s'\n" , wifi_sid, wifi_psk );
+  tft.println();
+  tft.printf( "Connecting to '%s'\n" , wifi_sid, wifi_psk );
 
   WiFi.begin( wifi_sid, wifi_psk );
 
-  uint32_t timeout = millis() + 5000;
-  while ( !WiFi.isConnected() && millis() - timeout > 0 )
+  while ( !WiFi.isConnected() )
   {
     Serial.print( "." );
     delay( 500 );
   }
   Serial.println();
   Serial.println( "Connected." );
+  tft.println( "Connected." );
+  configTzTime( "UTC", "0.pool.ntp.org", "1.pool.ntp.org" );
+  if ( !getLocalTime( &timeinfo, 0 ) )
+    delay(100);
+  tft.fillScreen( ILI9341_BLACK );
 
-
-  if ( WiFi.status() != WL_CONNECTED )
-  {
-    tft.setCursor( 80, 180 );
-    tft.println( "WiFi not connected." );
-    tft.setCursor( 50, 200 );
-    tft.printf( "SSID: %s PSK: %s", wifi_sid, wifi_psk );
-  }
-  else
-  {
-    configTzTime( "UTC", "0.pool.ntp.org", "1.pool.ntp.org" );    
-  }
 }
 
 void loop()
 {
-  time_t now;
-  time( &now );
-  struct tm timeinfo;
-  gmtime_r( &now, &timeinfo ); /* moon phase is calculated using UTC! */
-
-  double hourSecondPrecision = timeinfo.tm_hour + mapFloat( ( timeinfo.tm_min * 60 ) + timeinfo.tm_sec, 1, 3600, 0, 1 );
-
-  MoonPhase::moonData moon = MoonPhase.getInfo( 1900 + timeinfo.tm_year,
-                             timeinfo.tm_mon + 1,
-                             timeinfo.tm_mday,
-                             hourSecondPrecision );
+  moonData_t moon = moonPhase.getPhase();
   static int previousAngle;
 
   if ( previousAngle != moon.angle )
   {
     showMoonTft( moon.angle );
-    previousAngle = moon.angle;  
+    previousAngle = moon.angle;
   }
-
-  tft.setCursor( 20, 120 );
-  tft.printf( "%i%c %s UTC", moon.angle, char(247), asctime( &timeinfo ) );
+  getLocalTime( &timeinfo );
+  tft.setCursor( 60, 120 );
+  char timestr[20];
+  strftime( timestr, sizeof( timestr), "%c", &timeinfo );
+  tft.printf( "%s " "UTC", timestr );
   tft.setCursor( 120, 105 );
-  tft.printf( "%.4f%%", moon.percentLit * 100 );
+  tft.printf( "%i%c %.1f" "%%", moon.angle, char(247), moon.percentLit * 100 );
 
   delay( 1000 );
-}
-
-float mapFloat( float x, const float in_min, const float in_max, const float out_min, const float out_max)
-{
-  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 void showMoonTft(  uint16_t phase )
