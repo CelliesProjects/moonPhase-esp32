@@ -6,7 +6,6 @@
 # Datatypes (KEYWORD1)
 #######################################
 moonPhase KEYWORD1
-moonData_t	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -17,9 +16,14 @@ percentLit  KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
-######################################
+#######################################
 moon		KEYWORD2
 moonPhase		KEYWORD2
+
+#######################################
+# Structures (KEYWORD3)
+#######################################
+moonData_t	KEYWORD3
 
 #######################################
 # Constants (LITERAL1)
