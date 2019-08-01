@@ -2,9 +2,9 @@
 #include <moonPhase.h>
 
 const char * wifissid = "networkname";
-const char * wifipsk = "password";
+const char * wifipsk  = "password";
 
-moonPhase moonPhase; // include a MoonPhase instance
+moonPhase moonPhase;
 
 struct tm timeinfo = {0};
 
@@ -32,8 +32,7 @@ void loop() {
   getLocalTime( &timeinfo );
   Serial.print( asctime( &timeinfo ) );
 
-  moonData_t moon; // variable to receive the data
-  moon = moonPhase.getPhase();
+  moonData_t moon = moonPhase.getPhase();
 
   Serial.print( "Moon phase angle: " );
   Serial.print( moon.angle );                       // angle is a integer between 0-360

@@ -7,16 +7,15 @@ void setup() {
   Serial.println();
   Serial.println( "moonPhase simple example." );
 
-  moonData_t moon; // variable to receive the data
+  moonData_t moon;                        // variable to receive the data
 
-  moon = moonPhase.getPhase(); // gets the current moon phase (1/1/1970 at 00:00:00 UTC )
-                               // Because moonPhase uses the system time, which is not set in this example
+  moon = moonPhase.getPhase();            // gets the current moon phase ( 1/1/1970 at 00:00:00 UTC )
 
   Serial.print( "Moon phase angle: " );
-  Serial.print( moon.angle );                       // angle is a integer between 0-360
+  Serial.print( moon.angle );             // angle is a integer between 0-360
   Serial.println( " degrees." );
   Serial.print( "Moon surface lit: " );
-  Serial.print( moon.percentLit * 100 ); // percentLit is a real between 0-1
+  Serial.print( moon.percentLit * 100 );  // percentLit is a real between 0-1
 }
 
 void loop() {
