@@ -1,13 +1,19 @@
-# moonPhase
+### moonPhase
 
 An ESP32 library to get the moon phase angle and percentage of the moon that is illuminated.
 
-#### Usage:
+#### Usage
 
 1. Download the latest release and unpack in the esp32 `libraries` folder.
 2. Restart the Arduino IDE.
 
-#### Example code:
+|function          | result                               |
+|:-----------------|:-------------------------------------|
+| `getPhase()` | Get the current moon phase.<br>( First set freeRTOS system time ) |
+| `getPhase( time_t t )` | Get the moon phase at time `t`. |
+
+#### Example code
+
 ````c++
 #include <moonPhase.h>
 
