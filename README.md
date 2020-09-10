@@ -10,9 +10,9 @@ An esp32 library to get the moon phase angle and percentage of the moon that is 
 
 #### Functions:
 
-- `moonPhase getPhase()` Get the current moon phase. (First set freeRTOS system time)
+- `getPhase()` Get the current moon phase. (First set freeRTOS system time)
 
-- `moonPhase getPhase( time_t t )` Get the moon phase at time `t`.
+- `getPhase( time_t t )` Get the moon phase at time `t`.
 
 #### Example code
 
