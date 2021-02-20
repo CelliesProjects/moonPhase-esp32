@@ -1,14 +1,18 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8bc0dca32db84bb5a3b762be8d48d2b3)](https://www.codacy.com/manual/CelliesProjects/moonPhase?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CelliesProjects/moonPhase&amp;utm_campaign=Badge_Grade)
 ### moonPhase
 
-An esp32 library to get the moon phase angle and percentage of the moon that is illuminated.
+A library for esp32 to get the moon phase angle and percentage of the moon that is illuminated. (as seen from Earth)
+<br>Preferred methods to install is to use the Arduino IDE library manager. 
 
-#### Usage
+For esp8266 non-os or avr (Arduino) you can use the [steve-sienk fork](https://github.com/steve-sienk/moonPhaser-avr).
+
+
+#### Manual install
 
 1. Download the latest release and unpack in the Arduino `libraries` folder.
 2. Restart the Arduino IDE.
 
-#### Functions:
+#### Functions
 
 - `getPhase()` Get the current moon phase. (First set freeRTOS system time - see the esp32-sntp example)
 
