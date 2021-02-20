@@ -16,7 +16,7 @@ For esp8266 non-os or avr (Arduino) you can use the [steve-sienk fork](https://g
 
 - `getPhase()` Get the current moon phase. (First set freeRTOS system time - see the esp32-sntp example)
 
-- `getPhase( time_t t )` Get the moon phase at time `t`.
+- `getPhase( time_t t )` Get the moon phase as it was at time `t`.
 
 #### Example code
 
