@@ -9,7 +9,7 @@
 #ifndef MoonPhase_h
 #define MoonPhase_h
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 struct moonData_t
 {
@@ -20,7 +20,19 @@ struct moonData_t
 class moonPhase
 {
 public:
-  moonData_t getPhase(){ return getPhase( time(NULL) ); };
-  moonData_t getPhase( const time_t t );
+  moonData_t getPhase(const time_t t)
+  {
+    struct tm timeinfo;
+    gmtime_r(&t, &timeinfo);
+    return _getPhase(1900 + timeinfo.tm_year, 1 + timeinfo.tm_mon, timeinfo.tm_mday, _fhour(timeinfo));
+  }
+
+  moonData_t getPhase()
+  {
+    return getPhase(time(NULL));
+  }
+private:
+  double     _fhour(const struct tm &timeinfo);
+  moonData_t _getPhase(const int32_t year, const int32_t month, const int32_t day, const double &hour);
 };
 #endif
