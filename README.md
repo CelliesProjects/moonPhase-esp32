@@ -1,4 +1,3 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8bc0dca32db84bb5a3b762be8d48d2b3)](https://www.codacy.com/manual/CelliesProjects/moonPhase?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CelliesProjects/moonPhase&amp;utm_campaign=Badge_Grade)
 ### moonPhase
 
 A library for esp32 to get the moon phase angle and percentage of the moon that is illuminated. (as seen from Earth)
