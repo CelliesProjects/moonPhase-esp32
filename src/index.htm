@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+
+
+<link rel="icon" href="data:;base64,iVBORw0KGgo="><!--prevent favicon requests-->
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script>!function(a,b){"function"==typeof define&&define.amd?define([],b):"undefined"!=typeof module&&module.exports?module.exports=b():a.ReconnectingWebSocket=b()}(this,function(){function a(b,c,d){function l(a,b){var c=document.createEvent("CustomEvent");return c.initCustomEvent(a,!1,!1,b),c}var e={debug:!1,automaticOpen:!0,reconnectInterval:1e3,maxReconnectInterval:3e4,reconnectDecay:1.5,timeoutInterval:2e3};d||(d={});for(var f in e)this[f]="undefined"!=typeof d[f]?d[f]:e[f];this.url=b,this.reconnectAttempts=0,this.readyState=WebSocket.CONNECTING,this.protocol=null;var h,g=this,i=!1,j=!1,k=document.createElement("div");k.addEventListener("open",function(a){g.onopen(a)}),k.addEventListener("close",function(a){g.onclose(a)}),k.addEventListener("connecting",function(a){g.onconnecting(a)}),k.addEventListener("message",function(a){g.onmessage(a)}),k.addEventListener("error",function(a){g.onerror(a)}),this.addEventListener=k.addEventListener.bind(k),this.removeEventListener=k.removeEventListener.bind(k),this.dispatchEvent=k.dispatchEvent.bind(k),this.open=function(b){h=new WebSocket(g.url,c||[]),b||k.dispatchEvent(l("connecting")),(g.debug||a.debugAll)&&console.debug("ReconnectingWebSocket","attempt-connect",g.url);var d=h,e=setTimeout(function(){(g.debug||a.debugAll)&&console.debug("ReconnectingWebSocket","connection-timeout",g.url),j=!0,d.close(),j=!1},g.timeoutInterval);h.onopen=function(){clearTimeout(e),(g.debug||a.debugAll)&&console.debug("ReconnectingWebSocket","onopen",g.url),g.protocol=h.protocol,g.readyState=WebSocket.OPEN,g.reconnectAttempts=0;var d=l("open");d.isReconnect=b,b=!1,k.dispatchEvent(d)},h.onclose=function(c){if(clearTimeout(e),h=null,i)g.readyState=WebSocket.CLOSED,k.dispatchEvent(l("close"));else{g.readyState=WebSocket.CONNECTING;var d=l("connecting");d.code=c.code,d.reason=c.reason,d.wasClean=c.wasClean,k.dispatchEvent(d),b||j||((g.debug||a.debugAll)&&console.debug("ReconnectingWebSocket","onclose",g.url),k.dispatchEvent(l("close")));var e=g.reconnectInterval*Math.pow(g.reconnectDecay,g.reconnectAttempts);setTimeout(function(){g.reconnectAttempts++,g.open(!0)},e>g.maxReconnectInterval?g.maxReconnectInterval:e)}},h.onmessage=function(b){(g.debug||a.debugAll)&&console.debug("ReconnectingWebSocket","onmessage",g.url,b.data);var c=l("message");c.data=b.data,k.dispatchEvent(c)},h.onerror=function(b){(g.debug||a.debugAll)&&console.debug("ReconnectingWebSocket","onerror",g.url,b),k.dispatchEvent(l("error"))}},1==this.automaticOpen&&this.open(!1),this.send=function(b){if(h)return(g.debug||a.debugAll)&&console.debug("ReconnectingWebSocket","send",g.url,b),h.send(b);throw"INVALID_STATE_ERR : Pausing to reconnect websocket"},this.close=function(a,b){"undefined"==typeof a&&(a=1e3),i=!0,h&&h.close(a,b)},this.refresh=function(){h&&h.close()}}return a.prototype.onopen=function(){},a.prototype.onclose=function(){},a.prototype.onconnecting=function(){},a.prototype.onmessage=function(){},a.prototype.onerror=function(){},a.debugAll=!1,a.CONNECTING=WebSocket.CONNECTING,a.OPEN=WebSocket.OPEN,a.CLOSING=WebSocket.CLOSING,a.CLOSED=WebSocket.CLOSED,a});</script>
+<title>tempLight</title>
+<meta name="description" content="tempLight">
+<meta name="author" content="Cellie">
+<style>
+html, body{
+  background-color: #f1f1f1;
+  box-sizing: border-box;
+  font-family:'Roboto',sans-serif;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+}
+/* Style the tab */
+.tab {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+.title{
+  text-align:center;
+  border-bottom:none;
+}
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  border-radius: 5px 5px 0 0;
+}
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  text-align:center;
+  position:absolute;
+  top:70px;
+  left:0;
+  right:0;
+  bottom:0;
+}
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 100px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+.slider:hover {
+  opacity: 1;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 100px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 100px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="tab title">tempLight v0.1</div>
+<div class="tab" id="container">
+<button class="tablinks" value="OFF">OFF</button>
+<button class="tablinks" value="TEMPERATURE">TEMPERATURE</button>
+<button class="tablinks" value="COLOR">COLOR</button>
+<button class="tablinks" value="STROBOSCOPE">STROBOSCOPE</button>
+</div>
+<div class="tabcontent" id="offtab">
+  <h1>Light off</h1>
+</div>
+<div class="tabcontent">
+  <h1 id="currenttemp">&nbsp;</h1>
+  <p>Current temperature</p>
+</div>
+<div class="tabcontent" id="colortab">
+  <h1 id="colorname">#ff0000</h1>
+  <input type="color" id="colorpicker">
+  <p>Select a new color</p>
+</div>
+<div class="tabcontent" id="strobotab">
+  <h1 id="strobo_freqstr">&nbsp;</h1>
+  <input type="range" id="strobo_freqpicker" class="slider" min="0" max="100">
+</div>
+</div>
+<script>
+var socket;
+const debugip="192.168.0.108";  //change this to the esp32 ip for remote running of this page
+$(document).ready(function(){
+  $('#container').css('top',($('#container').height()+$('.title').height())+'px');
+  var ws_host="ws://";
+  if(window.location.hostname)ws_host+=window.location.hostname+"/ws";
+  else ws_host+=debugip+"/ws";
+  ws = new ReconnectingWebSocket(ws_host);
+  ws.onopen = function(e) {
+    console.log(`[open] Connection established`);
+  };
+  ws.onmessage = function(e) {
+    var command=e.data.split("\n");
+    switch (command[0]){
+      case "sensor" : {
+        console.log("temperature received");
+        let temp=command[1].substring(0,command[1].indexOf(".")+4);
+        $('#currenttemp').text(temp+"℃");
+        break;
+      }
+      case "strobofreq" : {
+        console.log("strobo_freq received");
+        $('#strobo_freqstr').text(command[1]+"Hz");
+        $('#strobo_freqpicker').val(command[1]);
+        break;
+      }
+      case "colorname" : {
+        console.log("colorname received");
+        $('#colorname').text(command[1]);
+        $('#colortab').css('background',command[1]);
+        $('#colorpicker').val(command[1]);
+        break;
+      }
+      case "state" : {
+        switch(command[1]) {
+          case "OFF" : {$('.tablinks').eq(0).click();break;}
+          case "TEMPERATURE" : {$('.tablinks').eq(1).click();break;}
+          case "COLOR" : {$('.tablinks').eq(2).click();break;}
+          case "STROBOSCOPE" : {$('.tablinks').eq(3).click();break;}
+          default:{console.log('Unhandled state:'+command[1]);break};
+        }
+      }
+
+      default: {console.log("Unhandled command: %s->%s", command[0],command[1]?command[1]:NULL);}
+    }
+  };
+  ws.onclose = function(event) {
+    if (event.wasClean) {
+      console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+    } else {
+      // e.g. server process killed or network down
+      // event.code is usually 1006 in this case
+      console.log(`[close] Connection died code=${event.code}`);
+    }
+  };
+  ws.onerror = function(error) {
+    console.log(`[error] ${error.message}`);
+  };
+});
+$('.tablinks').on('click',function(){
+  $('.tabcontent').hide().eq($(this).index()).show();
+  $('.tablinks').css('background','');
+  $(this).css('background','darkgray');
+  const val= $(this).val();
+  ws.send("switchstate\n"+val+"\n");
+});
+$('#colorpicker').on('input',function(){
+  $('#colorname').text($(this).val());
+  $('#colortab').css('background-color',$(this).val());
+  ws.send("color\n"+$(this).val());
+});
+$('#strobo_freqpicker').on('input',function(){
+  ws.send("setstrobofreq\n"+$(this).val());
+});
+</script>
+</body>
+</html>
