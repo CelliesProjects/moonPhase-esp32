@@ -20,7 +20,7 @@ lib_deps = celliesprojects/moonPhase-esp32@^2.0.0
 
 ```c++
 #include <Arduino.h>
-#include <moonPhase.h>
+#include <MoonPhase.hpp>
 
 MoonPhase moonPhase; // include a MoonPhase instance
 moonData_t moon;     // variable to receive the data
@@ -35,9 +35,12 @@ void setup()
 
     Serial.print("Moon phase angle: ");
     Serial.print(moon.angleDeg); // angleDeg is a integer between 0-360
-    Serial.println(" degrees.");
-    Serial.print("Moon surface amount lit: ");
-    Serial.print(moon.amountLit); // amountLit is a real between 0-1
+    Serial.println("° (Where 0° is new moon and 180° is full moon)");
+
+    Serial.print("Illuminated: ");
+    Serial.print(moon.amountLit * 100); // amountlit is a real between 0-1
+    Serial.println("% as seen from Earth");
+    Serial.println();
 }
 
 void loop()

@@ -1,43 +1,57 @@
+#include <Arduino.h>
 #include <WiFi.h>
-#include <moonPhase.h>
+#include <MoonPhase.hpp>
 
-const char * wifissid = "networkname";
-const char * wifipsk  = "password";
+const char *wifissid = "huiskamer";
+const char *wifipsk = "0987654321";
 
-moonPhase moonPhase;
+MoonPhase moonPhase;
 
-struct tm timeinfo = {0};
+struct tm timeinfo{};
 
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(115200);
-  Serial.println();
-  Serial.println();
-  Serial.println( "moonPhase esp32-sntp example." );
-  Serial.print( "Connecting to " );
-  Serial.println( wifissid );
-  WiFi.begin( wifissid, wifipsk );
-  while ( !WiFi.isConnected() )
-    delay(100);
-  Serial.println();
+void setup()
+{
+    Serial.begin(115200);
+    Serial.println();
+    Serial.println();
+    Serial.println("moonPhase esp32-sntp example.");
+    Serial.print("Connecting to ");
+    Serial.println(wifissid);
+    WiFi.begin(wifissid, wifipsk);
+    while (!WiFi.isConnected())
+        delay(10);
+    Serial.println();
 
-  Serial.println( "Connected. Getting time..." );
-  configTzTime( "CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00", "0.pool.ntp.org" ); // Timezone: Amsterdam, Netherlands
+    Serial.println("Connected. Syncing NTP...");
 
-  while ( !getLocalTime( &timeinfo, 0 ) )
-    vTaskDelay( 10 / portTICK_PERIOD_MS );
+    // For your local timezone string see https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv
+
+    const char timeZone[]{"CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00"}; // Timezone: Amsterdam, Netherlands
+    const char countryCode[]{"nl"};
+
+    char countryStr[64];
+    snprintf(countryStr, sizeof(countryStr), "%s.pool.ntp.org", countryCode);
+
+    configTzTime(timeZone, countryStr); 
+
+    while (!getLocalTime(&timeinfo, 0))
+        delay(10);
 }
 
-void loop() {
-  getLocalTime( &timeinfo );
-  Serial.print( asctime( &timeinfo ) );
+void loop()
+{
+    getLocalTime(&timeinfo);
+    Serial.print(asctime(&timeinfo));
 
-  moonData_t moon = moonPhase.getPhase();
+    moonData_t moon = moonPhase.getPhase();
 
-  Serial.print( "Moon phase angle: " );
-  Serial.print( moon.angle );                       // angle is a integer between 0-360
-  Serial.print( " degrees. Moon surface lit: " );
-  Serial.printf( "%f%%\n", moon.percentLit * 100 ); // percentLit is a real between 0-1
-  Serial.println();
-  delay(1000);
+    Serial.print("Moon phase angle: ");
+    Serial.print(moon.angleDeg); // angleDeg is a integer between 0-360
+    Serial.println("° (Where 0° is new moon and 180° is full moon)");
+
+    Serial.print("Illuminated: ");
+    Serial.print(moon.amountLit * 100); // amountlit is a real between 0-1
+    Serial.println("% as seen from Earth");
+    Serial.println();
+    delay(1000);
 }
