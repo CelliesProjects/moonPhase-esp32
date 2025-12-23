@@ -1,9 +1,30 @@
 ### moonPhase
 
 A library for esp32 to get the moon phase angle and percentage of the moon that is illuminated. (as seen from Earth)  
-The easiest method to install this library is to use the Arduino IDE library manager. 
+The easiest method to install this library is to use the Arduino IDE library manager.  
 
 For esp8266 non-os or avr (Arduino) you can use the [steve-sienk fork](https://github.com/steve-sienk/moonPhaser-avr).
+
+### Breaking changes upgrading from 1.x to 2.0
+
+### Why?
+
+The 1.x versions were coded with the default Arduino compiler settings which are very lax and allow for a lot of ambiguity.  
+Also I made some wrong choices wrt the struct member names.
+
+### The changes
+
+The `#include <moonPhase.h` changed to `#include "MoonPhase.hpp"`.  
+The class name has changed from `moonPhase` to `MoonPhase`.  
+The struct member names changed from `angle` to `angleDeg` and `percentLit` to `amountLit`. 
+
+| Before (v1.x)           | After (v2.0)           |
+| ----------------------- | ---------------------- |
+| `moonPhase`             | `MoonPhase`            |
+| `moonData_t.angle`      | `moonData_t.angleDeg`  |
+| `moonData_t.percentLit` | `moonData_t.amountLit` |
+
+The library now compiles cleanly with `-Wall` and `-Werror` settings enabled.
 
 #### Add to PlatformIO project
 
