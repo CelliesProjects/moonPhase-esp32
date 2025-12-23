@@ -9,14 +9,21 @@ For esp8266 non-os or avr (Arduino) you can use the [steve-sienk fork](https://g
 
 ### Why?
 
-The 1.x versions were coded with the default Arduino compiler settings which are very lax and allow for a lot of ambiguity.  
-Also I made some wrong choices wrt the struct member names.
+Some struct member names in earlier versions were misleading.
+
+Version 2.0 cleans this up and enforces stricter, more explicit code.
 
 ### The changes
 
-The `#include <moonPhase.h` changed to `#include "MoonPhase.hpp"`.  
-The class name has changed from `moonPhase` to `MoonPhase`.  
-The struct member names changed from `angle` to `angleDeg` and `percentLit` to `amountLit`. 
+The include path changed from `#include <moonPhase.h>` to `#include "MoonPhase.hpp"`  
+
+The class name changed from `moonPhase` to `MoonPhase`
+
+Struct member names were clarified:
+
+`angle` → `angleDeg`
+
+`percentLit` → `amountLit`
 
 | Before (v1.x)           | After (v2.0)           |
 | ----------------------- | ---------------------- |
@@ -24,7 +31,7 @@ The struct member names changed from `angle` to `angleDeg` and `percentLit` to `
 | `moonData_t.angle`      | `moonData_t.angleDeg`  |
 | `moonData_t.percentLit` | `moonData_t.amountLit` |
 
-The library now compiles cleanly with `-Wall` and `-Werror` settings enabled.
+The library now compiles cleanly with `-Wall` and `-Werror` enabled.
 
 #### Add to PlatformIO project
 
@@ -34,7 +41,9 @@ lib_deps = celliesprojects/moonPhase-esp32@^2.0.0
 
 #### Functions
 
-- `getPhase()` Get the current moon phase. (First set freeRTOS system time - see the example below)  
+- `getPhase()` Get the current moon phase.  
+First set freeRTOS system time - see the example below.
+
 - `getPhase(time_t t)` Get the moon phase from time `t`.  
 
 #### Example code
