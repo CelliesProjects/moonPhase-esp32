@@ -2,8 +2,8 @@
 #include <WiFi.h>
 #include <MoonPhase.hpp>
 
-const char *wifissid = "huiskamer";
-const char *wifipsk = "0987654321";
+const char *wifissid = "network name";
+const char *wifipsk = "network password";
 
 MoonPhase moonPhase;
 
