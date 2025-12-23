@@ -24,15 +24,18 @@ void setup()
 
     Serial.println("Connected. Syncing NTP...");
 
-    // For your local timezone string see https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv
+    // find your local timezone string at  
+    // https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv
 
-    const char timeZone[]{"CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00"}; // Timezone: Amsterdam, Netherlands
+    // timezone: Amsterdam, Netherlands
+    const char timeZone[]{"CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00"}; 
+
     const char countryCode[]{"nl"};
 
-    char countryStr[64];
-    snprintf(countryStr, sizeof(countryStr), "%s.pool.ntp.org", countryCode);
+    char ntpPool[64];
+    snprintf(ntpPool, sizeof(ntpPool), "%s.pool.ntp.org", countryCode);
 
-    configTzTime(timeZone, countryStr); 
+    configTzTime(timeZone, ntpPool); 
 
     while (!getLocalTime(&timeinfo, 0))
         delay(10);

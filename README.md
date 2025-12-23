@@ -13,25 +13,61 @@ lib_deps = celliesprojects/moonPhase-esp32@^2.0.0
 
 #### Functions
 
-- `getPhase()` Get the current moon phase. (First set freeRTOS system time - see the esp32-sntp example)  
-- `getPhase( time_t t )` Get the moon phase at time `t`.  
+- `getPhase()` Get the current moon phase. (First set freeRTOS system time - see the example below)  
+- `getPhase(time_t t)` Get the moon phase from time `t`.  
 
 #### Example code
 
 ```c++
 #include <Arduino.h>
+#include <WiFi.h>
 #include <MoonPhase.hpp>
 
-MoonPhase moonPhase; // include a MoonPhase instance
-moonData_t moon;     // variable to receive the data
+const char *wifissid = "network name";
+const char *wifipsk = "network password";
+
+MoonPhase moonPhase;
+
+struct tm timeinfo{};
 
 void setup()
 {
     Serial.begin(115200);
     Serial.println();
-    Serial.println("moonPhase simple example.");
+    Serial.println();
+    Serial.println("moonPhase esp32-sntp example.");
+    Serial.print("Connecting to ");
+    Serial.println(wifissid);
+    WiFi.begin(wifissid, wifipsk);
+    while (!WiFi.isConnected())
+        delay(10);
+    Serial.println();
 
-    moon = moonPhase.getPhase(); // gets the current moon phase ( 1/1/1970 at 00:00:00 UTC )
+    Serial.println("Connected. Syncing NTP...");
+
+    // find your local timezone string at  
+    // https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv
+
+    // timezone: Amsterdam, Netherlands
+    const char timeZone[]{"CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00"}; 
+
+    const char countryCode[]{"nl"};
+
+    char ntpPool[64];
+    snprintf(ntpPool, sizeof(ntpPool), "%s.pool.ntp.org", countryCode);
+
+    configTzTime(timeZone, ntpPool); 
+
+    while (!getLocalTime(&timeinfo, 0))
+        delay(10);
+}
+
+void loop()
+{
+    getLocalTime(&timeinfo);
+    Serial.print(asctime(&timeinfo));
+
+    moonData_t moon = moonPhase.getPhase();
 
     Serial.print("Moon phase angle: ");
     Serial.print(moon.angleDeg); // angleDeg is a integer between 0-360
@@ -41,10 +77,6 @@ void setup()
     Serial.print(moon.amountLit * 100); // amountlit is a real between 0-1
     Serial.println("% as seen from Earth");
     Serial.println();
-}
-
-void loop()
-{
-    // put your main code here, to run repeatedly:
+    delay(1000);
 }
 ```
