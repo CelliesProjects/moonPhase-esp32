@@ -1,6 +1,6 @@
 #include <inttypes.h>
 
-#include "moonPhase.h"
+#include "MoonPhase.hpp"
 
 double MoonPhase::_fhour(const struct tm &timeinfo)
 {
@@ -16,6 +16,9 @@ static double _Julian(int32_t year, int32_t month, const double &day)
         year--;
         month += 12;
     }
+
+    // compensate for the Gregorian calender reform in 1582
+    // see https://en.wikipedia.org/wiki/Gregorian_calendar#Gregorian_reform
     if (year > 1582 || (year == 1582 && month > 10) ||
         (year == 1582 && month == 10 && day > 15))
     {

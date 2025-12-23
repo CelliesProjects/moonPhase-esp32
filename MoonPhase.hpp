@@ -6,8 +6,8 @@
   A big thanks to Hugh at voidware for granting permission.
   Released under MIT license.
 */
-#ifndef MoonPhase_h
-#define MoonPhase_h
+#ifndef MoonPhase_hpp
+#define MoonPhase_hpp
 
 #include <Arduino.h>
 

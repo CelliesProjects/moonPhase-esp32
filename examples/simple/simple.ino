@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <moonPhase.h>
+#include <MoonPhase.h>
 
 MoonPhase moonPhase; // include a MoonPhase instance
 moonData_t moon;     // variable to receive the data
@@ -13,7 +13,7 @@ void setup()
     moon = moonPhase.getPhase(); // gets the current moon phase ( 1/1/1970 at 00:00:00 UTC )
 
     Serial.print("Moon phase angle: ");
-    Serial.print(moon.angleDeg); // angle is a integer between 0-360
+    Serial.print(moon.angleDeg); // angleDeg is a integer between 0-360
     Serial.println(" degrees.");
     Serial.print("Moon surface fraction lit: ");
     Serial.print(moon.amountLit); // amountLit is a real between 0-1
