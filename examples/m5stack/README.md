@@ -1,4 +1,4 @@
-### M5Stack MoonPhase example - How to use
+# M5Stack MoonPhase example - How to use
 
 Copy the folder `images` to a fat32 formatted SD card.
 
