@@ -77,6 +77,12 @@ static double _moon_position(const double &j, const double &ls)
     return l;
 }
 
+static int32_t wrap360(int32_t deg)
+{
+    deg %= 360;
+    return (deg < 0) ? deg + 360 : deg;
+}
+
 moonData_t MoonPhase::_getPhase(const int32_t year, const int32_t month, const int32_t day, const double &hour)
 {
     /*
@@ -88,12 +94,6 @@ moonData_t MoonPhase::_getPhase(const int32_t year, const int32_t month, const i
     const double ls{_sun_position(j)};
     const double lm{_moon_position(j, ls)};
     double angle = lm - ls;
-    int32_t angleDeg = static_cast<int32_t>(angle + 0.5);
-    if (angleDeg >= 360)
-        angleDeg -= 360;
-    angleDeg += (angleDeg < 0) ? 360 : 0;
-    const moonData_t returnValue{
-        (int32_t)angleDeg,
-        (1.0 - cos((lm - ls) * DEG_TO_RAD)) / 2};
-    return returnValue;
+    int32_t angleDeg = wrap360(std::lround(angle));
+    return {angleDeg, (1.0 - cos((lm - ls) * DEG_TO_RAD)) / 2};
 }
