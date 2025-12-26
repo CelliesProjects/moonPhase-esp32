@@ -27,8 +27,6 @@ void waitForTime()
     }
 }
 
-// ------------------------------------------------------------
-
 void drawMoonImage(int angle)
 {
     char path[32];
@@ -39,8 +37,6 @@ void drawMoonImage(int angle)
         Serial.printf("Failed to draw %s\n", path);
     }
 }
-
-// ------------------------------------------------------------
 
 void setup()
 {
@@ -72,8 +68,6 @@ void setup()
 
     waitForTime();
 }
-
-// ------------------------------------------------------------
 
 void loop()
 {
