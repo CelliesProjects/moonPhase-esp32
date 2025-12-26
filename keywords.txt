@@ -5,20 +5,12 @@
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
-moonPhase KEYWORD1
+MoonPhase	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 getPhase	KEYWORD2
-angle KEYWORD2
-percentLit  KEYWORD2
-
-#######################################
-# Instances (KEYWORD2)
-#######################################
-moon		KEYWORD2
-moonPhase		KEYWORD2
 
 #######################################
 # Structures (KEYWORD3)

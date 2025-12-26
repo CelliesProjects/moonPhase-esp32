@@ -1,47 +1,103 @@
-### moonPhase
+### MoonPhase
 
-A library for esp32 to get the moon phase angle and percentage of the moon that is illuminated. (as seen from Earth)
-<br>Preferred methods to install is to use the Arduino IDE library manager. 
+A library for esp32 to get the moon phase angle and amount of the moon that is illuminated. (as seen from Earth)  
 
 For esp8266 non-os or avr (Arduino) you can use the [steve-sienk fork](https://github.com/steve-sienk/moonPhaser-avr).
 
+### Breaking changes upgrading from 1.x to 2.0
 
-#### Manual install
+The include path changed from `#include <moonPhase.h>` to `#include "MoonPhase.hpp"`  
 
-1. Download the latest release and unpack in the Arduino `libraries` folder.
-2. Restart the Arduino IDE.
+The class name changed from `moonPhase` to `MoonPhase`
+
+Struct member names were clarified:
+
+`angle` → `angleDeg`
+
+`percentLit` → `amountLit`
+
+| Before (v1.x)           | After (v2.0)           |
+| ----------------------- | ---------------------- |
+| `moonPhase`             | `MoonPhase`            |
+| `moonData_t.angle`      | `moonData_t.angleDeg`  |
+| `moonData_t.percentLit` | `moonData_t.amountLit` |
+
+The library now compiles cleanly with `-Wall` and `-Werror` enabled.
+
+### Add to PlatformIO project
+
+```c++
+lib_deps = celliesprojects/moonPhase-esp32@^2.0.0
+```
 
 #### Functions
 
-- `getPhase()` Get the current moon phase. (First set freeRTOS system time - see the esp32-sntp example)
+- `getPhase()` Get the current moon phase.  
+First set freeRTOS system time - see the example below.
 
-- `getPhase( time_t t )` Get the moon phase as it was at time `t`.
+- `getPhase(time_t t)` Get the moon phase from time `t`.  
 
 #### Example code
 
 ```c++
-#include <moonPhase.h>
+#include <Arduino.h>
+#include <WiFi.h>
+#include <MoonPhase.hpp>
 
-moonPhase moonPhase;                       // include a MoonPhase instance
+const char *wifissid = "network name";
+const char *wifipsk = "network password";
 
-void setup() {
-  Serial.begin(115200);
-  Serial.println();
-  Serial.println( "moonPhase simple example." );
+MoonPhase moonPhase;
 
-  moonData_t moon;                        // variable to receive the data
+struct tm timeinfo{};
 
-  moon = moonPhase.getPhase();            // gets the current moon phase ( 1/1/1970 at 00:00:00 UTC )
+void setup()
+{
+    Serial.begin(115200);
+    Serial.println();
+    Serial.println();
+    Serial.println("moonPhase esp32-sntp example.");
+    Serial.print("Connecting to ");
+    Serial.println(wifissid);
+    WiFi.begin(wifissid, wifipsk);
+    while (!WiFi.isConnected())
+        delay(10);
+    Serial.println();
 
-  Serial.print( "Moon phase angle: " );
-  Serial.print( moon.angle );             // angle is a integer between 0-360
-  Serial.println( " degrees." );
-  Serial.print( "Moon surface lit: " );
-  Serial.print( moon.percentLit * 100 );  // percentLit is a real between 0-1
+    Serial.println("Connected. Syncing NTP...");
+
+    // find your local timezone string at  
+    // https://remotemonitoringsystems.ca/time-zone-abbreviations.php
+
+    // timezone: Amsterdam, Netherlands
+    const char timeZone[]{"CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00"}; 
+
+    const char countryCode[]{"nl"};
+
+    char ntpPool[64];
+    snprintf(ntpPool, sizeof(ntpPool), "%s.pool.ntp.org", countryCode);
+
+    configTzTime(timeZone, ntpPool); 
+
+    while (!getLocalTime(&timeinfo, 0))
+        delay(10);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void loop()
+{
+    getLocalTime(&timeinfo);
+    Serial.print(asctime(&timeinfo));
 
+    moonData_t moon = moonPhase.getPhase();
+
+    Serial.print("Moon phase angle: ");
+    Serial.print(moon.angleDeg); // angleDeg is a integer between 0-360
+    Serial.println("° (Where 0° is new moon and 180° is full moon)");
+
+    Serial.print("Illuminated: ");
+    Serial.print(moon.amountLit * 100); // amountlit is a real between 0-1
+    Serial.println("% as seen from Earth");
+    Serial.println();
+    delay(1000);
 }
 ```
