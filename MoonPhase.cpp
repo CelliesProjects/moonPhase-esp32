@@ -1,5 +1,3 @@
-#include <inttypes.h>
-
 #include "MoonPhase.hpp"
 
 double MoonPhase::_fhour(const struct tm &timeinfo)

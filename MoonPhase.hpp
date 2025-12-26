@@ -1,6 +1,6 @@
 /*
-  MoonPhase.h - Library to get moon phase angle
-  and percentage illuminated. (as seen from Earth)
+  MoonPhase.hpp - Library to get moon phase angle
+  and amount illuminated. (as seen from Earth)
   Created by Marcel Timmer, April 28, 2018.
   Code adapted from http://www.voidware.com/phase.c
   A big thanks to Hugh at voidware for granting permission.

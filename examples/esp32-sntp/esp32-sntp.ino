@@ -25,7 +25,7 @@ void setup()
     Serial.println("Connected. Syncing NTP...");
 
     // find your local timezone string at  
-    // https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv
+    // https://remotemonitoringsystems.ca/time-zone-abbreviations.php
 
     // timezone: Amsterdam, Netherlands
     const char timeZone[]{"CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00"}; 
