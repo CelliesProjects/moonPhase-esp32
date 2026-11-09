@@ -13,7 +13,7 @@
 
 struct moonData_t
 {
-    int32_t angleDeg;
+    double angleDeg;
     double amountLit;
 };
 

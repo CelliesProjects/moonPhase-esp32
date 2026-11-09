@@ -75,9 +75,10 @@ static double _moon_position(const double &j, const double &ls)
     return l;
 }
 
-static int32_t wrap360(int32_t deg)
+static double wrap360(double deg)
 {
-    deg %= 360;
+    while (deg > 360)
+        deg -= 360;
     return (deg < 0) ? deg + 360 : deg;
 }
 
@@ -85,13 +86,11 @@ moonData_t MoonPhase::_getPhase(const int32_t year, const int32_t month, const i
 {
     /*
       Calculates the phase of the moon at the given epoch.
-      returns the moon phase angle as an int (0-360)
+      returns the moon phase angle as a real (0.0-360.0)
       returns the amount that is lit as a real number (0.0-1.0)
     */
     const double j{_Julian(year, month, (double)day + hour / 24.0) - 2444238.5};
     const double ls{_sun_position(j)};
     const double lm{_moon_position(j, ls)};
-    double angle = lm - ls;
-    int32_t angleDeg = wrap360(std::lround(angle));
-    return {angleDeg, (1.0 - cos((lm - ls) * DEG_TO_RAD)) / 2};
+    return {wrap360(lm - ls), (1.0 - cos((lm - ls) * DEG_TO_RAD)) / 2};
 }
