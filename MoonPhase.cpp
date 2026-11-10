@@ -77,9 +77,9 @@ static double _moon_position(const double &j, const double &ls)
 
 static double wrap360(double deg)
 {
-    while (deg > 360)
+    while (deg > 360.0)
         deg -= 360;
-    return (deg < 0) ? deg + 360 : deg;
+    return (deg < 0) ? deg + 360.0 : deg;
 }
 
 moonData_t MoonPhase::_getPhase(const int32_t year, const int32_t month, const int32_t day, const double &hour)
