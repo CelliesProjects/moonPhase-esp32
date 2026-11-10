@@ -4,30 +4,16 @@ A library for esp32 to get the moon phase angle and amount of the moon that is i
 
 For esp8266 non-os or avr (Arduino) you can use the [steve-sienk fork](https://github.com/steve-sienk/moonPhaser-avr).
 
-### Breaking changes upgrading from 1.x to 2.0
+### Breaking changes upgrading from 2.0 to 3.0
 
-The include path changed from `#include <moonPhase.h>` to `#include "MoonPhase.hpp"`  
+The phase angle is now returned as a real.
 
-The class name changed from `moonPhase` to `MoonPhase`
-
-Struct member names were clarified:
-
-`angle` → `angleDeg`
-
-`percentLit` → `amountLit`
-
-| Before (v1.x)           | After (v2.0)           |
-| ----------------------- | ---------------------- |
-| `moonPhase`             | `MoonPhase`            |
-| `moonData_t.angle`      | `moonData_t.angleDeg`  |
-| `moonData_t.percentLit` | `moonData_t.amountLit` |
-
-The library now compiles cleanly with `-Wall` and `-Werror` enabled.
+If your code needs an int you can use `std::lround(angle)` to convert to the nearest int.
 
 ### Add to PlatformIO project
 
 ```c++
-lib_deps = celliesprojects/moonPhase-esp32@^2.0.0
+lib_deps = celliesprojects/moonPhase-esp32@^3.0.0
 ```
 
 #### Functions
