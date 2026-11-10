@@ -77,11 +77,11 @@ void loop()
     moonData_t moon = moonPhase.getPhase();
 
     Serial.print("Moon phase angle: ");
-    Serial.print(moon.angleDeg); // angleDeg is a integer between 0-360
+    Serial.print(moon.angleDeg); // angleDeg is a real in the range 0-360
     Serial.println("° (Where 0° is new moon and 180° is full moon)");
 
     Serial.print("Illuminated: ");
-    Serial.print(moon.amountLit * 100); // amountlit is a real between 0-1
+    Serial.print(moon.amountLit * 100); // amountlit is a real in the range 0-1
     Serial.println("% as seen from Earth");
     Serial.println();
     delay(1000);
