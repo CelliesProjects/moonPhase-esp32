@@ -77,11 +77,11 @@ void loop()
     moonData_t moon = moonPhase.getPhase();
 
     Serial.printf(
-        "Moon angle: %lu°, illuminated: %.1f%%\n",
+        "Moon angle: %.1f°, illuminated: %.1f%%\n",
         moon.angleDeg,
         moon.amountLit * 100.0f);
 
-    drawMoonImage(moon.angleDeg);
+    drawMoonImage(std::lround(moon.angleDeg));
 
     char buffer[6]; // "HH:MM"
     strftime(buffer, sizeof(buffer), "%H:%M", &now);
